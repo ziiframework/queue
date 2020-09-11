@@ -19,7 +19,7 @@ matrix:
 services:
   - mysql
   - postgresql
-  - redis-server
+  - redis
   - rabbitmq
   - docker
 

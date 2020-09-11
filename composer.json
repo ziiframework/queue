@@ -1,40 +1,43 @@
 {
-    "name": "yiisoft/yii2-queue",
-    "description": "Yii2 Queue Extension which supported DB, Redis, RabbitMQ, Beanstalk, SQS and Gearman",
+    "name": "ziiframework/queue",
+    "description": "zii-framework queue extension",
     "type": "yii2-extension",
-    "keywords": ["yii", "queue", "async", "gii", "db", "redis", "rabbitmq", "beanstalk", "gearman", "sqs"],
+    "keywords": ["zii-framework", "queue", "extension"],
     "license": "BSD-3-Clause",
     "authors": [
         {
-            "name": "Roman Zhuravlev",
-            "email": "zhuravljov@gmail.com"
+            "name": "Yii Team",
+            "email": "team@yiiframework.com",
+            "homepage": "http://www.yiiframework.com/team",
+            "role": "Founder and project lead"
         }
     ],
     "support": {
-        "issues": "https://github.com/yiisoft/yii2-queue/issues",
-        "source": "https://github.com/yiisoft/yii2-queue",
-        "docs": "https://github.com/yiisoft/yii2-queue/blob/master/docs/guide"
+        "issues": "https://github.com/ziiframework/queue/issues",
+        "source": "https://github.com/ziiframework/queue"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
-        "php": ">=5.5.0",
-        "yiisoft/yii2": "~2.0.14",
+        "php": ">=7.3.0",
+        "ziiframework/zii": "3.0.x-dev",
         "symfony/process": "^3.3||^4.0||^5.0"
     },
     "require-dev": {
-        "yiisoft/yii2-redis": "*",
+        "ziiframework/redis": "*",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.8||^0.9.10",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
-        "yiisoft/yii2-debug": "*",
-        "yiisoft/yii2-gii": "*",
-        "phpunit/phpunit": "~4.4",
+        "ziiframework/debug": "*",
+        "ziiframework/gii": "*",
+        "phpunit/phpunit": "^8.5",
         "aws/aws-sdk-php": ">=2.4",
         "enqueue/stomp": "^0.8.39"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
-        "yiisoft/yii2-redis": "Need for Redis queue.",
+        "ziiframework/redis": "Need for Redis queue.",
         "pda/pheanstalk": "Need for Beanstalk queue.",
         "php-amqplib/php-amqplib": "Need for AMQP queue.",
         "enqueue/amqp-lib": "Need for AMQP interop queue.",
@@ -64,13 +67,13 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.x-dev"
+            "dev-master": "3.0.x-dev"
         }
     },
     "repositories": [
         {
             "type": "composer",
-            "url": "https://asset-packagist.org"
+            "url": "https://asset-packagist.cn"
         }
     ]
 }
