@@ -20,17 +20,17 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.3.0",
-        "ziiframework/zii": "3.0.x-dev",
+        "ziiframework/zii": "~3.1.1",
         "symfony/process": "^3.3||^4.0||^5.0"
     },
     "require-dev": {
-        "ziiframework/redis": "*",
+        "ziiframework/redis": "~3.1.1",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.8||^0.9.10",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
-        "ziiframework/debug": "*",
-        "ziiframework/gii": "*",
+        "ziiframework/debug": "~3.1.1",
+        "ziiframework/gii": "~3.1.1",
         "phpunit/phpunit": "^8.5",
         "aws/aws-sdk-php": ">=2.4",
         "enqueue/stomp": "^0.8.39"
@@ -67,7 +67,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     },
     "repositories": [
