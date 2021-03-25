@@ -1,0 +1,781 @@
+diff --git a/.github/workflows/main.yml b/.github/workflows/main.yml
+new file mode 100644
+index 000000000..a10f66e7f
+--- /dev/null
++++ b/.github/workflows/main.yml
+@@ -0,0 +1,28 @@
++name: build
++
++on: [push, workflow_dispatch, pull_request]
++
++env:
++    COMPOSE_PROJECT_NAME: yii2-queue
++    COMPOSE_FILE: tests/docker-compose.yml
++    AWS_SQS_ENABLED: ${{ secrets.AWS_SQS_ENABLED }}
++    AWS_SQS_URL: ${{ secrets.AWS_SQS_URL }}
++    AWS_KEY: ${{ secrets.AWS_KEY }}
++    AWS_SECRET: ${{ secrets.AWS_SECRET }}
++    AWS_REGION: ${{ secrets.AWS_REGION }}
++    AWS_SQS_FIFO_ENABLED: ${{ secrets.AWS_SQS_FIFO_ENABLED }}
++    AWS_SQS_FIFO_URL: ${{ secrets.AWS_SQS_FIFO_URL }}
++    AWS_SQS_FIFO_MESSAGE_GROUP_ID: ${{ secrets.AWS_SQS_FIFO_MESSAGE_GROUP_ID }}
++jobs:
++    phpunit:
++        name: PHP ${{ matrix.php }}
++        runs-on: ubuntu-latest
++        strategy:
++            fail-fast: false
++            matrix:
++                php: [ 56, 70, 71, 72, 73 ]
++        steps:
++            -   name: Checkout
++                uses: actions/checkout@v2
++            -   name: PHP Unit tests for PHP ${{ matrix.php }}
++                run: make test${{ matrix.php }}
+diff --git a/.travis.yml b/.travis.yml
+deleted file mode 100644
+index 47a30d091..000000000
+--- a/.travis.yml
++++ /dev/null
+@@ -1,55 +0,0 @@
+-language: php
+-
+-php:
+-  - 5.6
+-  - 7.0
+-  - 7.1
+-  - 7.2
+-  - 7.3
+-
+-matrix:
+-  include:
+-    - php: 5.5
+-      env:
+-        - EXCLUDE_AMQP_INTEROP=true
+-        - EXCLUDE_STOMP=true
+-  fast_finish: true
+-
+-
+-services:
+-  - mysql
+-  - postgresql
+-  - redis-server
+-  - rabbitmq
+-  - docker
+-
+-# cache vendor dirs
+-cache:
+-  directories:
+-    - $HOME/.composer/cache
+-
+-before_install:
+-  - sudo apt-get update -qq
+-  - sudo apt-get install -qq beanstalkd
+-  - sudo beanstalkd -v
+-  - sudo service beanstalkd start
+-  - docker pull webcenter/activemq
+-  - docker run -d -p 61613:61613 webcenter/activemq
+-  - if [[ ${TRAVIS_PHP_VERSION:0:1} == "5" ]]; then pecl install igbinary-2.0.8; else pecl install igbinary; fi
+-
+-install:
+-  - travis_retry composer self-update && composer --version
+-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+-  - if [ "$EXCLUDE_AMQP_INTEROP" = true ]; then travis_retry composer remove "enqueue/amqp-lib" "enqueue/amqp-tools" --dev --no-interaction  --no-update; fi
+-  - if [ "$EXCLUDE_STOMP" = true ]; then travis_retry composer remove "enqueue/stomp" --dev --no-interaction  --no-update; fi
+-  - travis_retry composer install --prefer-dist --no-interaction
+-
+-before_script:
+-  - mysql -e 'CREATE DATABASE yii2_queue_test;'
+-  - php tests/yii mysql-migrate --interactive=0
+-  - php tests/yii sqlite-migrate --interactive=0
+-  - psql -c  'create database yii2_queue_test;' -U postgres
+-  - php tests/yii pgsql-migrate --interactive=0
+-
+-script:
+-  - vendor/bin/phpunit
+diff --git a/CHANGELOG.md b/CHANGELOG.md
+index cda71d530..df2185ff4 100644
+--- a/CHANGELOG.md
++++ b/CHANGELOG.md
+@@ -1,12 +1,19 @@
+ Yii2 Queue Extension Change Log
+ ===============================
+ 
+-2.3.1 under development
++2.3.2 under development
++-----------------------
++
++- no changes in this release.
++
++
++2.3.1 December 23, 2020
+ -----------------------
+ 
+ - Bug #380: Fixed amqp-interop queue/listen signal handling (tarinu)
+ - Enh #388: `symfony/process 5.0` compatibility (leandrogehlen)
+ 
++
+ 2.3.0 June 04, 2019
+ -------------------
+ 
+diff --git a/Makefile b/Makefile
+index ca08cc2fb..8eb67e0e0 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,6 +1,3 @@
+-COMPOSE_PROJECT_NAME=yii2-queue
+-COMPOSE_FILE=tests/docker-compose.yml
+-
+ build:
+ 	@cp -n .env.example .env
+ 	docker-compose pull
+diff --git a/README.md b/README.md
+index a9fa8c568..d847d1d38 100644
+--- a/README.md
++++ b/README.md
+@@ -14,7 +14,7 @@ Documentation is at [docs/guide/README.md](docs/guide/README.md).
+ 
+ [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-queue/v/stable.svg)](https://packagist.org/packages/yiisoft/yii2-queue)
+ [![Total Downloads](https://poser.pugx.org/yiisoft/yii2-queue/downloads.svg)](https://packagist.org/packages/yiisoft/yii2-queue)
+-[![Build Status](https://travis-ci.com/yiisoft/yii2-queue.svg?branch=master)](https://travis-ci.com/yiisoft/yii2-queue)
++[![Build Status](https://github.com/yiisoft/yii2-queue/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-queue/actions)
+ 
+ Installation
+ ------------
+diff --git a/tests/app/benchmark/waiting/Action.php b/tests/app/benchmark/waiting/Action.php
+index 101c55783..019cff075 100644
+--- a/tests/app/benchmark/waiting/Action.php
++++ b/tests/app/benchmark/waiting/Action.php
+@@ -26,25 +26,25 @@ class Action extends \yii\base\Action
+     public $modes = [
+         // Worker will be run in fast mode
+         'fast' => [
+-            'gearmanQueue'     => 'gearman-queue/listen      --isolate=0',
+-            'beanstalkQueue'   => 'beanstalk-queue/listen    --isolate=0',
+-            'redisQueue'       => 'redis-queue/listen        --isolate=0',
+-            'amqpQueue'        => 'amqp-queue/listen         --isolate=0',
+-            'amqpInteropQueue' => 'amqp-interop-queue/listen --isolate=0',
+-            'mysqlQueue'       => 'mysql-queue/listen 1      --isolate=0',
+-            'fileQueue'        => 'file-queue/listen 1       --isolate=0',
+-            'stompQueue'       => 'stomp-queue/listen        --isolate=0',
++            'gearmanQueue'     => ['gearman-queue/listen'      ,'--isolate=0'],
++            'beanstalkQueue'   => ['beanstalk-queue/listen'    ,'--isolate=0'],
++            'redisQueue'       => ['redis-queue/listen'        ,'--isolate=0'],
++            'amqpQueue'        => ['amqp-queue/listen'         ,'--isolate=0'],
++            'amqpInteropQueue' => ['amqp-interop-queue/listen' ,'--isolate=0'],
++            'mysqlQueue'       => ['mysql-queue/listen', '1'   ,'--isolate=0'],
++            'fileQueue'        => ['file-queue/listen' , '1'   ,'--isolate=0'],
++            'stompQueue'       => ['stomp-queue/listen'        ,'--isolate=0'],
+         ],
+         // Worker will be run in isolate mode
+         'isolate' => [
+-            'gearmanQueue'     => 'gearman-queue/listen      --isolate=1',
+-            'beanstalkQueue'   => 'beanstalk-queue/listen    --isolate=1',
+-            'redisQueue'       => 'redis-queue/listen        --isolate=1',
+-            'amqpQueue'        => 'amqp-queue/listen         --isolate=1',
+-            'amqpInteropQueue' => 'amqp-interop-queue/listen --isolate=1',
+-            'mysqlQueue'       => 'mysql-queue/listen 1      --isolate=1',
+-            'fileQueue'        => 'file-queue/listen 1       --isolate=1',
+-            'stompQueue'       => 'stomp-queue/listen 1      --isolate=1',
++            'gearmanQueue'     => ['gearman-queue/listen'      ,'--isolate=1'],
++            'beanstalkQueue'   => ['beanstalk-queue/listen'    ,'--isolate=1'],
++            'redisQueue'       => ['redis-queue/listen'        ,'--isolate=1'],
++            'amqpQueue'        => ['amqp-queue/listen'         ,'--isolate=1'],
++            'amqpInteropQueue' => ['amqp-interop-queue/listen' ,'--isolate=1'],
++            'mysqlQueue'       => ['mysql-queue/listen', '1'   ,'--isolate=1'],
++            'fileQueue'        => ['file-queue/listen' , '1'   ,'--isolate=1'],
++            'stompQueue'       => ['stomp-queue/listen', '1'   ,'--isolate=1'],
+         ],
+     ];
+     /**
+@@ -137,14 +137,14 @@ public function run($mode = 'fast', $jobCount = 1000, $workerCount = 10, $payloa
+     /**
+      * Starts few workers.
+      *
+-     * @param string $command
++     * @param array $command
+      * @param int $count
+      * @param callable $callback
+      */
+     private function startWorkers($command, $count, callable $callback)
+     {
+         for ($i = 0; $i < $count; $i++) {
+-            $this->workers[] = $worker = new Process("exec php tests/yii $command");
++            $this->workers[] = $worker = new Process(array_merge(['php', 'tests/yii'], $command));
+             $worker->start($callback);
+         }
+     }
+diff --git a/tests/drivers/CliTestCase.php b/tests/drivers/CliTestCase.php
+index 756fb97d5..36ba94cd6 100644
+--- a/tests/drivers/CliTestCase.php
++++ b/tests/drivers/CliTestCase.php
+@@ -24,7 +24,7 @@ abstract class CliTestCase extends TestCase
+     private $processes = [];
+ 
+     /**
+-     * @param string $cmd
++     * @param array $cmd
+      */
+     protected function runProcess($cmd)
+     {
+@@ -37,12 +37,12 @@ protected function runProcess($cmd)
+     }
+ 
+     /**
+-     * @param string $cmd
++     * @param array $cmd
+      * @return Process
+      */
+     protected function startProcess($cmd)
+     {
+-        $process = new Process('exec ' . $this->prepareCmd($cmd));
++        $process = new Process($this->prepareCmd($cmd));
+         $process->start();
+         sleep(2);
+         if ($process->getExitCode() !== null) {
+@@ -53,8 +53,8 @@ protected function startProcess($cmd)
+     }
+ 
+     /**
+-     * @param string $cmd
+-     * @return string
++     * @param array $cmd
++     * @return array
+      */
+     private function prepareCmd($cmd)
+     {
+@@ -62,11 +62,20 @@ private function prepareCmd($cmd)
+         $method = $class->getMethod('getCommandId');
+         $method->setAccessible(true);
+ 
+-        return strtr($cmd, [
++        $replace = [
+             'php' => PHP_BINARY,
+             'yii' => __DIR__ . '/../yii',
+             'queue' => $method->invoke($this->getQueue()),
+-        ]);
++        ];
++
++        array_walk(
++            $cmd,
++            static function (&$v) use ($replace) {
++                $v = strtr($v, $replace);
++            }
++        );
++
++        return $cmd;
+     }
+ 
+     /**
+diff --git a/tests/drivers/amqp/QueueTest.php b/tests/drivers/amqp/QueueTest.php
+index 8323d827b..96a324934 100644
+--- a/tests/drivers/amqp/QueueTest.php
++++ b/tests/drivers/amqp/QueueTest.php
+@@ -28,7 +28,7 @@ protected function getQueue()
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+diff --git a/tests/drivers/amqp_interop/QueueTest.php b/tests/drivers/amqp_interop/QueueTest.php
+index ebb7c8023..90f26408a 100644
+--- a/tests/drivers/amqp_interop/QueueTest.php
++++ b/tests/drivers/amqp_interop/QueueTest.php
+@@ -22,7 +22,7 @@ class QueueTest extends CliTestCase
+ {
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -31,7 +31,7 @@ public function testListen()
+ 
+     public function testLater()
+     {
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->delay(2)->push($job);
+ 
+@@ -40,7 +40,7 @@ public function testLater()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
+@@ -56,7 +56,7 @@ public function testPriority()
+         $this->getQueue()->priority(2)->push(new PriorityJob(['number' => 3]));
+         $this->getQueue()->priority(2)->push(new PriorityJob(['number' => 4]));
+         $this->getQueue()->priority(3)->push(new PriorityJob(['number' => 2]));
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         sleep(3);
+ 
+         $this->assertEquals('12345', file_get_contents(PriorityJob::getFileName()));
+@@ -75,7 +75,7 @@ public function testSignals()
+         ];
+ 
+         foreach ($signals as $signal => $exitCode) {
+-            $process = $this->startProcess('php yii queue/listen');
++            $process = $this->startProcess(['php', 'yii', 'queue/listen']);
+             $this->assertTrue($process->isRunning());
+             $process->signal($signal);
+             $process->wait();
+@@ -97,7 +97,7 @@ protected function setUp()
+         if ('true' == getenv('EXCLUDE_AMQP_INTEROP')) {
+             $this->markTestSkipped('Amqp tests are disabled for php 5.5');
+         }
+-        
++
+         parent::setUp();
+     }
+ }
+diff --git a/tests/drivers/beanstalk/QueueTest.php b/tests/drivers/beanstalk/QueueTest.php
+index ee0ff936f..8219d5056 100644
+--- a/tests/drivers/beanstalk/QueueTest.php
++++ b/tests/drivers/beanstalk/QueueTest.php
+@@ -26,7 +26,7 @@ public function testRun()
+     {
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertSimpleJobDone($job);
+     }
+@@ -36,7 +36,7 @@ public function testStatus()
+         $job = $this->createSimpleJob();
+         $id = $this->getQueue()->push($job);
+         $isWaiting = $this->getQueue()->isWaiting($id);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+         $isDone = $this->getQueue()->isDone($id);
+ 
+         $this->assertTrue($isWaiting);
+@@ -50,14 +50,14 @@ public function testPriority()
+         $this->getQueue()->priority(200)->push(new PriorityJob(['number' => 3]));
+         $this->getQueue()->priority(200)->push(new PriorityJob(['number' => 4]));
+         $this->getQueue()->priority(100)->push(new PriorityJob(['number' => 2]));
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertEquals('12345', file_get_contents(PriorityJob::getFileName()));
+     }
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -66,7 +66,7 @@ public function testListen()
+ 
+     public function testLater()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->delay(2)->push($job);
+ 
+@@ -75,7 +75,7 @@ public function testLater()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
+@@ -88,7 +88,7 @@ public function testRemove()
+     {
+         $id = $this->getQueue()->push($this->createSimpleJob());
+         $this->assertTrue($this->jobIsExists($id));
+-        $this->runProcess("php yii queue/remove $id");
++        $this->runProcess(['php', 'yii', 'queue/remove', $id]);
+ 
+         $this->assertFalse($this->jobIsExists($id));
+     }
+diff --git a/tests/drivers/db/TestCase.php b/tests/drivers/db/TestCase.php
+index 3c91c52d0..2384aee3f 100644
+--- a/tests/drivers/db/TestCase.php
++++ b/tests/drivers/db/TestCase.php
+@@ -23,7 +23,7 @@ public function testRun()
+     {
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertSimpleJobDone($job);
+     }
+@@ -33,7 +33,7 @@ public function testStatus()
+         $job = $this->createSimpleJob();
+         $id = $this->getQueue()->push($job);
+         $isWaiting = $this->getQueue()->isWaiting($id);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+         $isDone = $this->getQueue()->isDone($id);
+ 
+         $this->assertTrue($isWaiting);
+@@ -47,14 +47,14 @@ public function testPriority()
+         $this->getQueue()->priority(200)->push(new PriorityJob(['number' => 3]));
+         $this->getQueue()->priority(200)->push(new PriorityJob(['number' => 4]));
+         $this->getQueue()->priority(100)->push(new PriorityJob(['number' => 2]));
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertEquals('12345', file_get_contents(PriorityJob::getFileName()));
+     }
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -63,7 +63,7 @@ public function testListen()
+ 
+     public function testLater()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->delay(2)->push($job);
+ 
+@@ -72,7 +72,7 @@ public function testLater()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
+@@ -84,7 +84,7 @@ public function testRetry()
+     public function testClear()
+     {
+         $this->getQueue()->push($this->createSimpleJob());
+-        $this->runProcess('php yii queue/clear --interactive=0');
++        $this->runProcess(['php', 'yii', 'queue/clear', '--interactive=0']);
+         $actual = (new Query())
+             ->from($this->getQueue()->tableName)
+             ->where(['channel' => $this->getQueue()->channel])
+@@ -96,7 +96,7 @@ public function testClear()
+     public function testRemove()
+     {
+         $id = $this->getQueue()->push($this->createSimpleJob());
+-        $this->runProcess("php yii queue/remove $id");
++        $this->runProcess(['php', 'yii', 'queue/remove', $id]);
+         $actual = (new Query())
+             ->from($this->getQueue()->tableName)
+             ->where(['channel' => $this->getQueue()->channel, 'id' => $id])
+diff --git a/tests/drivers/file/QueueTest.php b/tests/drivers/file/QueueTest.php
+index b842f91b2..b398b55dd 100644
+--- a/tests/drivers/file/QueueTest.php
++++ b/tests/drivers/file/QueueTest.php
+@@ -23,7 +23,7 @@ public function testRun()
+     {
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertSimpleJobDone($job);
+     }
+@@ -33,7 +33,7 @@ public function testStatus()
+         $job = $this->createSimpleJob();
+         $id = $this->getQueue()->push($job);
+         $isWaiting = $this->getQueue()->isWaiting($id);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+         $isDone = $this->getQueue()->isDone($id);
+ 
+         $this->assertTrue($isWaiting);
+@@ -42,7 +42,7 @@ public function testStatus()
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -51,7 +51,7 @@ public function testListen()
+ 
+     public function testLater()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->delay(2)->push($job);
+ 
+@@ -60,7 +60,7 @@ public function testLater()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
+@@ -73,7 +73,7 @@ public function testClear()
+     {
+         $this->getQueue()->push($this->createSimpleJob());
+         $this->assertNotEmpty(glob($this->getQueue()->path . '/job*.data'));
+-        $this->runProcess('php yii queue/clear --interactive=0');
++        $this->runProcess(['php', 'yii', 'queue/clear', '--interactive=0']);
+ 
+         $this->assertEmpty(glob($this->getQueue()->path . '/job*.data'));
+     }
+@@ -82,7 +82,7 @@ public function testRemove()
+     {
+         $id = $this->getQueue()->push($this->createSimpleJob());
+         $this->assertFileExists($this->getQueue()->path . "/job$id.data");
+-        $this->runProcess("php yii queue/remove $id");
++        $this->runProcess(['php', 'yii', 'queue/remove', $id]);
+ 
+         $this->assertFileNotExists($this->getQueue()->path . "/job$id.data");
+     }
+diff --git a/tests/drivers/gearman/QueueTest.php b/tests/drivers/gearman/QueueTest.php
+index 3120b7af6..00774eb5e 100644
+--- a/tests/drivers/gearman/QueueTest.php
++++ b/tests/drivers/gearman/QueueTest.php
+@@ -23,7 +23,7 @@ public function testRun()
+     {
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertSimpleJobDone($job);
+     }
+@@ -35,7 +35,7 @@ public function testPriority()
+         $this->getQueue()->priority('norm')->push(new PriorityJob(['number' => 3]));
+         $this->getQueue()->priority('norm')->push(new PriorityJob(['number' => 4]));
+         $this->getQueue()->priority('high')->push(new PriorityJob(['number' => 2]));
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertEquals('12345', file_get_contents(PriorityJob::getFileName()));
+     }
+@@ -45,7 +45,7 @@ public function testStatus()
+         $job = $this->createSimpleJob();
+         $id = $this->getQueue()->push($job);
+         $isWaiting = $this->getQueue()->isWaiting($id);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+         $isDone = $this->getQueue()->isDone($id);
+ 
+         $this->assertTrue($isWaiting);
+@@ -54,7 +54,7 @@ public function testStatus()
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+diff --git a/tests/drivers/redis/QueueTest.php b/tests/drivers/redis/QueueTest.php
+index f1c339e23..9a26052aa 100644
+--- a/tests/drivers/redis/QueueTest.php
++++ b/tests/drivers/redis/QueueTest.php
+@@ -23,7 +23,7 @@ public function testRun()
+     {
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertSimpleJobDone($job);
+     }
+@@ -33,7 +33,7 @@ public function testStatus()
+         $job = $this->createSimpleJob();
+         $id = $this->getQueue()->push($job);
+         $isWaiting = $this->getQueue()->isWaiting($id);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+         $isDone = $this->getQueue()->isDone($id);
+ 
+         $this->assertTrue($isWaiting);
+@@ -42,7 +42,7 @@ public function testStatus()
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -51,7 +51,7 @@ public function testListen()
+ 
+     public function testLater()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->delay(2)->push($job);
+ 
+@@ -60,7 +60,7 @@ public function testLater()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
+@@ -73,7 +73,7 @@ public function testClear()
+     {
+         $this->getQueue()->push($this->createSimpleJob());
+         $this->assertNotEmpty($this->getQueue()->redis->keys($this->getQueue()->channel . '.*'));
+-        $this->runProcess('php yii queue/clear --interactive=0');
++        $this->runProcess(['php', 'yii', 'queue/clear', '--interactive=0']);
+ 
+         $this->assertEmpty($this->getQueue()->redis->keys($this->getQueue()->channel . '.*'));
+     }
+@@ -82,7 +82,7 @@ public function testRemove()
+     {
+         $id = $this->getQueue()->push($this->createSimpleJob());
+         $this->assertTrue((bool) $this->getQueue()->redis->hexists($this->getQueue()->channel . '.messages', $id));
+-        $this->runProcess("php yii queue/remove $id");
++        $this->runProcess(['php', 'yii', 'queue/remove', $id]);
+ 
+         $this->assertFalse((bool) $this->getQueue()->redis->hexists($this->getQueue()->channel . '.messages', $id));
+     }
+diff --git a/tests/drivers/sqs/FifoQueueTest.php b/tests/drivers/sqs/FifoQueueTest.php
+index ead65e93a..8ac2f3f0c 100644
+--- a/tests/drivers/sqs/FifoQueueTest.php
++++ b/tests/drivers/sqs/FifoQueueTest.php
+@@ -21,14 +21,14 @@ public function testRun()
+     {
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertSimpleJobDone($job);
+     }
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -37,7 +37,7 @@ public function testListen()
+ 
+     public function testFifoQueueDoesNotSupportPerMessageDelays()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+ 
+         $this->setExpectedException('\Aws\Sqs\Exception\SqsException');
+@@ -46,7 +46,7 @@ public function testFifoQueueDoesNotSupportPerMessageDelays()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
+@@ -62,7 +62,7 @@ public function testClear()
+         }
+ 
+         $this->getQueue()->push($this->createSimpleJob());
+-        $this->runProcess('php yii queue/clear --interactive=0');
++        $this->runProcess(['php', 'yii', 'queue/clear', '--interactive=0']);
+     }
+ 
+     /**
+diff --git a/tests/drivers/sqs/QueueTest.php b/tests/drivers/sqs/QueueTest.php
+index 4b9c31345..9068d5b53 100644
+--- a/tests/drivers/sqs/QueueTest.php
++++ b/tests/drivers/sqs/QueueTest.php
+@@ -23,14 +23,14 @@ public function testRun()
+     {
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+-        $this->runProcess('php yii queue/run');
++        $this->runProcess(['php', 'yii', 'queue/run']);
+ 
+         $this->assertSimpleJobDone($job);
+     }
+ 
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -39,7 +39,7 @@ public function testListen()
+ 
+     public function testLater()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->delay(2)->push($job);
+ 
+@@ -48,7 +48,7 @@ public function testLater()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen 1');
++        $this->startProcess(['php', 'yii', 'queue/listen', '1']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
+@@ -64,7 +64,7 @@ public function testClear()
+         }
+ 
+         $this->getQueue()->push($this->createSimpleJob());
+-        $this->runProcess('php yii queue/clear --interactive=0');
++        $this->runProcess(['php', 'yii', 'queue/clear', '--interactive=0']);
+     }
+ 
+     /**
+diff --git a/tests/drivers/stomp/QueueTest.php b/tests/drivers/stomp/QueueTest.php
+index af41e193c..06cda568e 100644
+--- a/tests/drivers/stomp/QueueTest.php
++++ b/tests/drivers/stomp/QueueTest.php
+@@ -7,7 +7,6 @@
+ 
+ namespace tests\drivers\stomp;
+ 
+-use tests\app\PriorityJob;
+ use tests\app\RetryJob;
+ use tests\drivers\CliTestCase;
+ use Yii;
+@@ -18,7 +17,7 @@ class QueueTest extends CliTestCase
+ {
+     public function testListen()
+     {
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         $job = $this->createSimpleJob();
+         $this->getQueue()->push($job);
+ 
+@@ -27,7 +26,7 @@ public function testListen()
+ 
+     public function testRetry()
+     {
+-        $this->startProcess('php yii queue/listen');
++        $this->startProcess(['php', 'yii', 'queue/listen']);
+         $job = new RetryJob(['uid' => uniqid()]);
+         $this->getQueue()->push($job);
+         sleep(6);
