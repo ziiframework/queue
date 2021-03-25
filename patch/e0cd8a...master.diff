@@ -43,19 +43,6 @@ index ca08cc2fb..8eb67e0e0 100644
  build:
  	@cp -n .env.example .env
  	docker-compose pull
-diff --git a/README.md b/README.md
-index a9fa8c568..d847d1d38 100644
---- a/README.md
-+++ b/README.md
-@@ -14,7 +14,7 @@ Documentation is at [docs/guide/README.md](docs/guide/README.md).
- 
- [![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-queue/v/stable.svg)](https://packagist.org/packages/yiisoft/yii2-queue)
- [![Total Downloads](https://poser.pugx.org/yiisoft/yii2-queue/downloads.svg)](https://packagist.org/packages/yiisoft/yii2-queue)
--[![Build Status](https://travis-ci.com/yiisoft/yii2-queue.svg?branch=master)](https://travis-ci.com/yiisoft/yii2-queue)
-+[![Build Status](https://github.com/yiisoft/yii2-queue/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-queue/actions)
- 
- Installation
- ------------
 diff --git a/tests/app/benchmark/waiting/Action.php b/tests/app/benchmark/waiting/Action.php
 index 101c55783..019cff075 100644
 --- a/tests/app/benchmark/waiting/Action.php
