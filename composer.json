@@ -24,7 +24,7 @@
         "symfony/process": "^3.3||^4.0||^5.0"
     },
     "require-dev": {
-        "yiisoft/yii2-redis": "~3.1.1",
+        "ziiframework/redis": "~3.2.1",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.8||^0.9.10",
         "pda/pheanstalk": "v3.*",
@@ -37,7 +37,7 @@
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
-        "yiisoft/yii2-redis": "Need for Redis queue.",
+        "ziiframework/redis": "Need for Redis queue.",
         "pda/pheanstalk": "Need for Beanstalk queue.",
         "php-amqplib/php-amqplib": "Need for AMQP queue.",
         "enqueue/amqp-lib": "Need for AMQP interop queue.",
