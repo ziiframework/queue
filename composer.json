@@ -33,7 +33,7 @@
         "ziiframework/gii": "~3.1.1",
         "phpunit/phpunit": "^8.5",
         "aws/aws-sdk-php": ">=3.198.3",
-        "enqueue/stomp": "^0.8.39"
+        "enqueue/stomp": "^0.10.7"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
