@@ -32,7 +32,7 @@
         "ziiframework/debug": "~3.4.1",
         "ziiframework/gii": "~3.1.1",
         "phpunit/phpunit": "^8.5",
-        "aws/aws-sdk-php": ">=2.4",
+        "aws/aws-sdk-php": ">=3.198.3",
         "enqueue/stomp": "^0.8.39"
     },
     "suggest": {
