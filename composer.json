@@ -20,13 +20,13 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.3.0",
-        "ziiframework/zii": "~3.1.1",
+        "ziiframework/zii": "~3.1.6",
         "symfony/process": "^3.3||^4.0||^5.0"
     },
     "require-dev": {
         "ziiframework/redis": "~3.2.1",
         "php-amqplib/php-amqplib": "*",
-        "enqueue/amqp-lib": "^0.8||^0.9.10",
+        "enqueue/amqp-lib": "^0.8.42",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
         "ziiframework/debug": "~3.4.1",
