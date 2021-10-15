@@ -20,7 +20,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.3.0",
-        "ziiframework/zii": "~3.1.1",
+        "ziiframework/zii": "~3.1.6",
         "symfony/process": "^3.3||^4.0||^5.0"
     },
     "require-dev": {
