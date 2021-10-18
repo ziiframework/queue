@@ -27,7 +27,7 @@
         "ziiframework/redis": "~3.2.1",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.8.42",
-        "pda/pheanstalk": "v3.*",
+        "pda/pheanstalk": "v4.*",
         "jeremeamia/superclosure": "*",
         "ziiframework/debug": "~3.4.1",
         "ziiframework/gii": "~3.1.1",
