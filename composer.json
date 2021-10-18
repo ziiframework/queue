@@ -26,7 +26,7 @@
     "require-dev": {
         "ziiframework/redis": "~3.2.1",
         "php-amqplib/php-amqplib": "*",
-        "enqueue/amqp-lib": "^0.8||^0.9.10",
+        "enqueue/amqp-lib": "^0.8.42",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
         "ziiframework/debug": "~3.4.1",
