@@ -20,24 +20,23 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.3.0",
-        "ziiframework/zii": "~3.1.6",
+        "ziiframework/zii": ">=3.2.4",
         "symfony/process": "^3.3||^4.0||^5.0"
     },
     "require-dev": {
         "ziiframework/redis": "~3.2.1",
+        "ziiframework/debug": "~3.4.0",
+        "ziiframework/gii": "~3.2.1",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.8.42",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
-        "ziiframework/debug": "~3.4.1",
-        "ziiframework/gii": "~3.1.1",
         "phpunit/phpunit": "^8.5",
         "aws/aws-sdk-php": ">=3.198.3",
         "enqueue/stomp": "^0.8.39"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
-        "ziiframework/redis": "Need for Redis queue.",
         "pda/pheanstalk": "Need for Beanstalk queue.",
         "php-amqplib/php-amqplib": "Need for AMQP queue.",
         "enqueue/amqp-lib": "Need for AMQP interop queue.",
@@ -65,15 +64,17 @@
             "tests\\": "tests"
         }
     },
+    "scripts": {
+        "redo-install": [
+            "rm -rf vendor/",
+            "rm -f composer.lock",
+            "@composer self-update -vvv",
+            "@composer install -vvv"
+        ]
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.cn"
-        }
-    ]
+    }
 }
