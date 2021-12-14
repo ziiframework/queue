@@ -19,14 +19,14 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.3.0",
-        "ziiframework/zii": ">=3.2.4",
-        "symfony/process": "^3.3||^4.0||^5.0"
+        "php": ">=7.4.0",
+        "ziiframework/zii": ">=3.5.1",
+        "symfony/process": "^5.0"
     },
     "require-dev": {
-        "ziiframework/redis": "~3.2.1",
-        "ziiframework/debug": "~3.4.0",
-        "ziiframework/gii": "~3.2.1",
+        "ziiframework/redis": ">=3.2.1",
+        "ziiframework/debug": ">=3.5.0",
+        "ziiframework/gii": ">=3.3.0",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.8.42",
         "pda/pheanstalk": "v3.*",
