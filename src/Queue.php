@@ -86,7 +86,7 @@ abstract class Queue extends Component
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

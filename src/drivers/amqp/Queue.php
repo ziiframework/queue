@@ -49,7 +49,7 @@ class Queue extends CliQueue
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         Event::on(BaseApp::class, BaseApp::EVENT_AFTER_REQUEST, function () {

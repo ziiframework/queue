@@ -50,7 +50,7 @@ class Queue extends CliQueue
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->path = Yii::getAlias($this->path);

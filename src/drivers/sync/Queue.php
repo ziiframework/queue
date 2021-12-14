@@ -45,7 +45,7 @@ class Queue extends BaseQueue
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         if ($this->handle) {

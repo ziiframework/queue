@@ -31,7 +31,7 @@ abstract class Action extends BaseAction
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 

@@ -217,7 +217,7 @@ class Queue extends CliQueue
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         Event::on(BaseApp::class, BaseApp::EVENT_AFTER_REQUEST, function () {
@@ -227,7 +227,7 @@ class Queue extends CliQueue
         if (extension_loaded('pcntl') && PHP_MAJOR_VERSION >= 7) {
             // https://github.com/php-amqplib/php-amqplib#unix-signals
             $signals = [SIGTERM, SIGQUIT, SIGINT, SIGHUP];
-            
+
             foreach ($signals as $signal) {
                 $oldHandler = null;
                 // This got added in php 7.1 and might not exist on all supported versions

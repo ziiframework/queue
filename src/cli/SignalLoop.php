@@ -66,7 +66,7 @@ class SignalLoop extends BaseObject implements LoopInterface
      *
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         if (extension_loaded('pcntl')) {
