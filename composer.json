@@ -77,11 +77,5 @@
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+    }
 }
