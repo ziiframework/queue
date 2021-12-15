@@ -8,7 +8,7 @@
         {
             "name": "Yii Team",
             "email": "team@yiiframework.com",
-            "homepage": "http://www.yiiframework.com/team",
+            "homepage": "https://www.yiiframework.com/team",
             "role": "Founder and project lead"
         }
     ],
@@ -21,22 +21,23 @@
     "require": {
         "php": ">=7.4.0",
         "ziiframework/zii": ">=3.5.1",
-        "symfony/process": "^5.0"
+        "symfony/process": "^3.3||^4.0||^5.0"
     },
     "require-dev": {
         "ziiframework/redis": ">=3.2.1",
         "ziiframework/debug": ">=3.5.0",
         "ziiframework/gii": ">=3.3.0",
         "php-amqplib/php-amqplib": "*",
-        "enqueue/amqp-lib": "^0.8.42",
+        "enqueue/amqp-lib": "^0.8||^0.9.10",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
-        "phpunit/phpunit": "^8.5",
-        "aws/aws-sdk-php": ">=3.198.3",
+        "phpunit/phpunit": "~4.4",
+        "aws/aws-sdk-php": ">=2.4",
         "enqueue/stomp": "^0.8.39"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
+        "ziiframework/redis": "Need for Redis queue.",
         "pda/pheanstalk": "Need for Beanstalk queue.",
         "php-amqplib/php-amqplib": "Need for AMQP queue.",
         "enqueue/amqp-lib": "Need for AMQP interop queue.",
@@ -76,5 +77,11 @@
         "branch-alias": {
             "dev-master": "4.0.x-dev"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }
