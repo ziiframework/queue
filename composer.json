@@ -29,7 +29,7 @@
         "ziiframework/gii": ">=3.3.0",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.8||^0.9.10",
-        "pda/pheanstalk": "v3.*",
+        "pda/pheanstalk": "v4.*",
         "jeremeamia/superclosure": "*",
         "phpunit/phpunit": "~4.4",
         "aws/aws-sdk-php": ">=2.4",
