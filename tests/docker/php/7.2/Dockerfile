@@ -1,6 +1,10 @@
 FROM php:7.2-cli
 
 RUN apt-get update \
+    && apt-get install -y unzip \
+    && apt-get install -y bzip2 \
+    && apt-get install -y libbz2-dev \
+    && docker-php-ext-install bz2 \
     && apt-get install -y curl \
     && apt-get install -y zlib1g-dev \
     && docker-php-ext-install zip \
@@ -30,7 +34,7 @@ RUN apt-get update \
     && curl -L -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && rm /tmp/composer-setup.php \
-    && curl -L -o /usr/local/bin/php-cs-fixer https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar \
+    && curl -L -o /usr/local/bin/php-cs-fixer https://cs.symfony.com/download/php-cs-fixer-v2.phar \
     && chmod a+x /usr/local/bin/php-cs-fixer
 
 COPY . /code
