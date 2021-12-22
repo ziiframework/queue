@@ -32,7 +32,7 @@
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
         "phpunit/phpunit": "~4.4",
-        "aws/aws-sdk-php": ">=2.4",
+        "aws/aws-sdk-php": ">=3.208.7",
         "enqueue/stomp": "^0.8.39"
     },
     "suggest": {
