@@ -31,7 +31,7 @@
         "enqueue/amqp-lib": "^0.8||^0.9.10",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
-        "phpunit/phpunit": "~4.4",
+        "phpunit/phpunit": "~9.5",
         "aws/aws-sdk-php": ">=2.4",
         "enqueue/stomp": "^0.8.39"
     },
