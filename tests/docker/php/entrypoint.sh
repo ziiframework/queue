@@ -2,8 +2,6 @@
 
 set -eu
 
-sudo service  ds_agent stop
-
 flock tests/runtime/composer-install.lock composer install --prefer-dist --no-interaction
 
 tests/yii sqlite-migrate/up --interactive=0
