@@ -35,8 +35,17 @@ jobs:
 
       - name: Setup Permissions
         run: |
+          ls -l tests/docker/php/entrypoint.sh
+          ls -l tests/docker/wait-for-it.sh
+          ls -l tests/yii
+
           chmod a+x tests/docker/php/entrypoint.sh
+          chmod a+x tests/docker/wait-for-it.sh
           chmod a+x tests/yii
+
+          ls -l tests/docker/php/entrypoint.sh
+          ls -l tests/docker/wait-for-it.sh
+          ls -l tests/yii
 
       - name: PHP Unit tests for PHP ${{ matrix.php }}
         run: make test${{ matrix.php }}
