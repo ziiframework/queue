@@ -32,5 +32,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Setup Permissions
+        run: |
+          chmod a+x tests/docker/php/entrypoint.sh
+          chmod a+x tests/yii
+
       - name: PHP Unit tests for PHP ${{ matrix.php }}
         run: make test${{ matrix.php }}
