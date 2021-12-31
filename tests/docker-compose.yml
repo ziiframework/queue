@@ -13,7 +13,7 @@ services:
     - 8.8.8.8
     - 4.4.4.4
     environment: &php_environment
-      MYSQL_HOST: mysql
+      MYSQL_HOST: mysqlhost
       MYSQL_USER: yii2_queue_test
       MYSQL_PASSWORD: yii2_queue_test
       MYSQL_DATABASE: yii2_queue_test
@@ -39,7 +39,6 @@ services:
       AWS_SQS_FIFO_URL: ""
       AWS_SQS_FIFO_MESSAGE_GROUP_ID: ""
     depends_on: &php_depends_on
-    - mysql
     - postgres
     - redis
     - rabbitmq
@@ -103,19 +102,6 @@ services:
     depends_on: *php_depends_on
     networks:
       net: { }
-
-  # https://docs.docker.com/samples/library/mysql/
-  mysql:
-    image: mysql:5.7
-    ports:
-    - 3307:3306
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_USER: yii2_queue_test
-      MYSQL_PASSWORD: yii2_queue_test
-      MYSQL_DATABASE: yii2_queue_test
-    networks:
-      net: {}
 
   # https://docs.docker.com/samples/library/postgres/
   postgres:
