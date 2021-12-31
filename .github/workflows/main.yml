@@ -1,6 +1,14 @@
 name: build
 
-on: [push, workflow_dispatch, pull_request]
+on:
+  push:
+    branches:
+      - master
+      - main
+  pull_request:
+    branches:
+      - master
+      - main
 
 env:
   COMPOSE_PROJECT_NAME: yii2-queue
