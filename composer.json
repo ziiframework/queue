@@ -34,22 +34,31 @@
     },
     "autoload": {
         "psr-4": {
-            "yii\\queue\\": "src",
-            "yii\\queue\\amqp\\": "src/drivers/amqp",
-            "yii\\queue\\amqp_interop\\": "src/drivers/amqp_interop",
-            "yii\\queue\\beanstalk\\": "src/drivers/beanstalk",
-            "yii\\queue\\db\\": "src/drivers/db",
-            "yii\\queue\\file\\": "src/drivers/file",
-            "yii\\queue\\gearman\\": "src/drivers/gearman",
-            "yii\\queue\\redis\\": "src/drivers/redis",
-            "yii\\queue\\sync\\": "src/drivers/sync",
-            "yii\\queue\\sqs\\": "src/drivers/sqs",
-            "yii\\queue\\stomp\\": "src/drivers/stomp"
+            "yii\\queue\\": "src/",
+            "yii\\queue\\amqp\\": "src/drivers/amqp/",
+            "yii\\queue\\amqp_interop\\": "src/drivers/amqp_interop/",
+            "yii\\queue\\beanstalk\\": "src/drivers/beanstalk/",
+            "yii\\queue\\db\\": "src/drivers/db/",
+            "yii\\queue\\file\\": "src/drivers/file/",
+            "yii\\queue\\gearman\\": "src/drivers/gearman/",
+            "yii\\queue\\redis\\": "src/drivers/redis/",
+            "yii\\queue\\sync\\": "src/drivers/sync/",
+            "yii\\queue\\sqs\\": "src/drivers/sqs/",
+            "yii\\queue\\stomp\\": "src/drivers/stomp/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "tests\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        },
+        "sort-packages": true,
+        "allow-plugins": {
+            "ziiframework/composer": true
         }
     },
     "scripts": {
