@@ -8,8 +8,7 @@
         {
             "name": "Yii Team",
             "email": "team@yiiframework.com",
-            "homepage": "https://www.yiiframework.com/team",
-            "role": "Founder and project lead"
+            "homepage": "https://www.yiiframework.com/team"
         }
     ],
     "support": {
@@ -28,12 +27,12 @@
         "ziiframework/debug": ">=3.5.0",
         "ziiframework/gii": ">=3.3.0",
         "php-amqplib/php-amqplib": "*",
-        "enqueue/amqp-lib": "^0.8||^0.9.10",
-        "pda/pheanstalk": "v3.*",
+        "enqueue/amqp-lib": "^0.10",
+        "pda/pheanstalk": "^3.0",
         "jeremeamia/superclosure": "*",
         "phpunit/phpunit": "~4.4",
         "aws/aws-sdk-php": ">=2.4",
-        "enqueue/stomp": "^0.8.39"
+        "enqueue/stomp": "^0.10"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
@@ -62,7 +61,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "tests\\": "tests"
+            "tests\\": "tests/"
         }
     },
     "scripts": {
