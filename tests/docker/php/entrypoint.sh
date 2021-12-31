@@ -1,5 +1,7 @@
 #!/bin/sh
 
+ls -l
+
 set -eu
 
 flock tests/runtime/composer-install.lock composer install --prefer-dist --no-interaction

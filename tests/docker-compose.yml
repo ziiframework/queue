@@ -38,14 +38,6 @@ services:
       AWS_SQS_FIFO_ENABLED: ""
       AWS_SQS_FIFO_URL: ""
       AWS_SQS_FIFO_MESSAGE_GROUP_ID: ""
-    depends_on: &php_depends_on
-    - mysql
-    - postgres
-    - redis
-    - rabbitmq
-    - beanstalk
-    - gearmand
-    - activemq
     networks:
       net: {}
   php72:
@@ -56,7 +48,6 @@ services:
       - ./runtime/.composer72:/root/.composer
     dns: *php_dns
     environment: *php_environment
-    depends_on: *php_depends_on
     networks:
       net: {}
   php71:
@@ -67,7 +58,6 @@ services:
     - ./runtime/.composer71:/root/.composer
     dns: *php_dns
     environment: *php_environment
-    depends_on: *php_depends_on
     networks:
       net: {}
   php70:
@@ -78,7 +68,6 @@ services:
       - ./runtime/.composer70:/root/.composer
     dns: *php_dns
     environment: *php_environment
-    depends_on: *php_depends_on
     networks:
       net: {}
   php56:
@@ -89,7 +78,6 @@ services:
     - ./runtime/.composer56:/root/.composer
     dns: *php_dns
     environment: *php_environment
-    depends_on: *php_depends_on
     networks:
       net: {}
   php74:
@@ -100,74 +88,8 @@ services:
       - ./runtime/.composer74:/root/.composer
     dns: *php_dns
     environment: *php_environment
-    depends_on: *php_depends_on
     networks:
       net: { }
-
-  # https://docs.docker.com/samples/library/mysql/
-  mysql:
-    image: mysql:5.7
-    ports:
-    - 3307:3306
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_USER: yii2_queue_test
-      MYSQL_PASSWORD: yii2_queue_test
-      MYSQL_DATABASE: yii2_queue_test
-    networks:
-      net: {}
-
-  # https://docs.docker.com/samples/library/postgres/
-  postgres:
-    image: postgres:10.4
-    ports:
-    - 5433:5432
-    environment:
-      POSTGRES_USER: yii2_queue_test
-      POSTGRES_PASSWORD: yii2_queue_test
-      POSTGRES_DB: yii2_queue_test
-    networks:
-      net: {}
-
-  # https://docs.docker.com/samples/library/redis/
-  redis:
-    image: redis:4.0
-    ports:
-    - 6380:6379
-    networks:
-      net: {}
-
-  # https://hub.docker.com/_/rabbitmq/
-  rabbitmq:
-    image: rabbitmq:3.9.10
-    ports:
-    - 5673:5672
-    networks:
-      net: {}
-
-  # https://hub.docker.com/r/schickling/beanstalkd/
-  beanstalk:
-    image: schickling/beanstalkd
-    ports:
-    - 11301:11300
-    networks:
-      net: {}
-
-  # https://hub.docker.com/r/artefactual/gearmand/
-  gearmand:
-    image: artefactual/gearmand
-    ports:
-    - 4731:4730
-    networks:
-      net: {}
-
-  #  https://hub.docker.com/r/webcenter/activemq/
-  activemq:
-    image: webcenter/activemq
-    ports:
-      - 61613:61613
-    networks:
-      net: {}
 
 networks:
   net:
