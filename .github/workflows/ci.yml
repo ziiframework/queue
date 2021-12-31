@@ -1,4 +1,4 @@
-name: build
+name: ci
 
 on:
   push:
@@ -21,6 +21,7 @@ env:
   AWS_SQS_FIFO_ENABLED: ""
   AWS_SQS_FIFO_URL: ""
   AWS_SQS_FIFO_MESSAGE_GROUP_ID: ""
+
 jobs:
   phpunit:
     name: PHP ${{ matrix.php }}
@@ -40,5 +41,5 @@ jobs:
           chmod a+x tests/docker/php/mysql-lock.php
           chmod a+x tests/yii
 
-      - name: PHP Unit tests for PHP ${{ matrix.php }}
+      - name: PHPUnit
         run: make test${{ matrix.php }}
