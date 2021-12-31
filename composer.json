@@ -22,18 +22,6 @@
         "ziiframework/zii": ">=3.5.1",
         "symfony/process": "^3.3||^4.0||^5.0"
     },
-    "require-dev": {
-        "ziiframework/redis": ">=3.2.1",
-        "ziiframework/debug": ">=3.5.0",
-        "ziiframework/gii": ">=3.3.0",
-        "php-amqplib/php-amqplib": "*",
-        "enqueue/amqp-lib": "^0.10.9",
-        "pda/pheanstalk": "^3.0",
-        "jeremeamia/superclosure": "*",
-        "phpunit/phpunit": "~4.4",
-        "aws/aws-sdk-php": ">=2.4",
-        "enqueue/stomp": "^0.10.9"
-    },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
         "ziiframework/redis": "Need for Redis queue.",
