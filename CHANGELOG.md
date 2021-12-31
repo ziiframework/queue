@@ -1,6 +1,8 @@
 Yii2 Queue Extension Change Log
 ===============================
 
+Upstream Changes: [e5c905b...master](https://github.com/yiisoft/yii2-queue/compare/e5c905b...master)
+
 2.3.4 under development
 -----------------------
 
