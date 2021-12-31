@@ -25,10 +25,11 @@ RUN apt-get update \
     && php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && rm /tmp/composer-setup.php \
     && curl -L -o /usr/local/bin/php-cs-fixer https://cs.symfony.com/download/php-cs-fixer-v2.phar \
-    && chmod a+x /usr/local/bin/php-cs-fixer
+    && chmod a+x /usr/local/bin/php-cs-fixer \
+    && ls -l
 
 COPY . /code
 WORKDIR /code
 
-ENTRYPOINT ["tests/docker/php/entrypoint.sh"]
+ENTRYPOINT ["sh", "tests/docker/php/entrypoint.sh"]
 CMD ["sleep", "infinity"]
