@@ -2,6 +2,8 @@
 
 set -eu
 
+ls -l
+
 flock tests/runtime/composer-install.lock composer install --prefer-dist --no-interaction
 
 tests/yii sqlite-migrate/up --interactive=0
