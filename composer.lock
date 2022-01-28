@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe3b35330d239abcd2c6d5807bad27de",
+    "content-hash": "2b78543a6c9e63e01f2ff71b0964b323",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -326,16 +326,16 @@
         },
         {
             "name": "ziiframework/zii",
-            "version": "3.5.8",
+            "version": "3.5.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ziiframework/zii.git",
-                "reference": "782478b0956be478d28c9719727e30ec12485be4"
+                "reference": "b38be5b7409ee1bd90310f6b837fddda90276422"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ziiframework/zii/zipball/782478b0956be478d28c9719727e30ec12485be4",
-                "reference": "782478b0956be478d28c9719727e30ec12485be4",
+                "url": "https://api.github.com/repos/ziiframework/zii/zipball/b38be5b7409ee1bd90310f6b837fddda90276422",
+                "reference": "b38be5b7409ee1bd90310f6b837fddda90276422",
                 "shasum": ""
             },
             "require": {
@@ -344,14 +344,16 @@
                 "ext-dom": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
+                "ext-pdo": "*",
                 "ezyang/htmlpurifier": "^4.13",
                 "lib-pcre": "*",
                 "php": ">=7.4.0",
-                "symfony/polyfill-php80": "^1.23",
+                "symfony/polyfill-php80": "^1.24",
                 "ziiframework/composer": ">=3.5.0"
             },
             "require-dev": {
                 "cebe/indent": "^1.0",
+                "nette/php-generator": "^3.6",
                 "phpunit/phpunit": "^9.5"
             },
             "bin": [
@@ -393,7 +395,7 @@
                 "issues": "https://github.com/ziiframework/zii/issues?state=open",
                 "source": "https://github.com/ziiframework/zii"
             },
-            "time": "2022-01-04T08:15:12+00:00"
+            "time": "2022-01-28T09:30:59+00:00"
         }
     ],
     "packages-dev": [
