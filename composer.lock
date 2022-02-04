@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe3b35330d239abcd2c6d5807bad27de",
+    "content-hash": "93105eda3ee8087f2454f2afbfc8aadc",
     "packages": [
         {
             "name": "cebe/markdown",
@@ -449,16 +449,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.209.4",
+            "version": "3.209.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "784e5ccc1b544db5018a41fc4dbfeda4c7d436b3"
+                "reference": "3ed5a5ff379e518a4e8c089e412207774daa25e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/784e5ccc1b544db5018a41fc4dbfeda4c7d436b3",
-                "reference": "784e5ccc1b544db5018a41fc4dbfeda4c7d436b3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3ed5a5ff379e518a4e8c089e412207774daa25e7",
+                "reference": "3ed5a5ff379e518a4e8c089e412207774daa25e7",
                 "shasum": ""
             },
             "require": {
@@ -502,12 +502,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Aws\\": "src/"
-                },
                 "files": [
                     "src/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "Aws\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -534,9 +534,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.4"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.17"
             },
-            "time": "2022-01-12T19:14:37+00:00"
+            "time": "2022-02-03T19:19:22+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -1056,12 +1056,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Psr7\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
