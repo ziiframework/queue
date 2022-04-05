@@ -30,7 +30,7 @@
         "jeremeamia/superclosure": "*",
         "ziiframework/debug": "*",
         "ziiframework/gii": "*",
-        "phpunit/phpunit": "~4.4",
+        "phpunit/phpunit": "^5.0",
         "aws/aws-sdk-php": ">=3.212.7",
         "enqueue/stomp": "^0.10.9"
     },
