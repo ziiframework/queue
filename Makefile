@@ -9,10 +9,22 @@ test74:
 	docker-compose run php74 vendor/bin/phpunit --colors=always -v --debug
 	docker-compose down
 
+test: test80
+test80:
+	docker-compose build --pull php80
+	docker-compose run php80 vendor/bin/phpunit --colors=always -v --debug
+	docker-compose down
+
 benchmark: benchmark74
 benchmark74:
 	docker-compose build --pull php74
 	docker-compose run php74 tests/yii benchmark/waiting
+	docker-compose down
+
+benchmark: benchmark80
+benchmark80:
+	docker-compose build --pull php80
+	docker-compose run php80 tests/yii benchmark/waiting
 	docker-compose down
 
 clean:
