@@ -20,6 +20,7 @@ RUN apt-get update \
     && apt-get -y install libgearman-dev \
     && pecl install gearman \
     && docker-php-ext-enable gearman \
+    && docker-php-ext-install sockets \
     && rm -rf /var/lib/apt/lists/* \
     && curl -L -o /tmp/composer-setup.php https://getcomposer.org/installer \
     && php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer \
