@@ -28,7 +28,6 @@
         "enqueue/amqp-lib": "^0.10.9",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
-        "ziiframework/debug": "*",
         "ziiframework/gii": "*",
         "phpunit/phpunit": "^8.0",
         "aws/aws-sdk-php": ">=3.212.7",
