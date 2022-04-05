@@ -2,7 +2,7 @@
 
 set -eu
 
-flock tests/runtime/composer-install.lock composer install --prefer-dist --no-interaction
+flock tests/runtime/composer-install.lock composer install --prefer-dist --no-interaction --ignore-platform-reqs
 
 tests/yii sqlite-migrate/up --interactive=0
 
