@@ -9,10 +9,10 @@ services:
     volumes:
       - ./runtime/.composer74:/root/.composer
       - ..:/code
-    dns: &php_dns
+    dns:
       - 8.8.8.8
       - 4.4.4.4
-    environment: &php_environment
+    environment:
       MYSQL_HOST: mysql
       MYSQL_USER: yii2_queue_test
       MYSQL_PASSWORD: yii2_queue_test
@@ -38,7 +38,7 @@ services:
       AWS_SQS_FIFO_ENABLED: ""
       AWS_SQS_FIFO_URL: ""
       AWS_SQS_FIFO_MESSAGE_GROUP_ID: ""
-    depends_on: &php_depends_on
+    depends_on:
       - mysql
       - postgres
       - redis
@@ -56,10 +56,10 @@ services:
     volumes:
       - ./runtime/.composer80:/root/.composer
       - ..:/code
-    dns: &php_dns
+    dns:
       - 8.8.8.8
       - 4.4.4.4
-    environment: &php_environment
+    environment:
       MYSQL_HOST: mysql
       MYSQL_USER: yii2_queue_test
       MYSQL_PASSWORD: yii2_queue_test
@@ -85,7 +85,7 @@ services:
       AWS_SQS_FIFO_ENABLED: ""
       AWS_SQS_FIFO_URL: ""
       AWS_SQS_FIFO_MESSAGE_GROUP_ID: ""
-    depends_on: &php_depends_on
+    depends_on:
       - mysql
       - postgres
       - redis
