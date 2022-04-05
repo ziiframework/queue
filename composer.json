@@ -25,14 +25,14 @@
     "require-dev": {
         "ziiframework/redis": "*",
         "php-amqplib/php-amqplib": "*",
-        "enqueue/amqp-lib": "^0.8||^0.9.10",
+        "enqueue/amqp-lib": "^0.10.9",
         "pda/pheanstalk": "v3.*",
         "jeremeamia/superclosure": "*",
         "ziiframework/debug": "*",
         "ziiframework/gii": "*",
         "phpunit/phpunit": "~4.4",
         "aws/aws-sdk-php": ">=3.212.7",
-        "enqueue/stomp": "^0.8.39"
+        "enqueue/stomp": "^0.10.9"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
@@ -65,9 +65,6 @@
         }
     },
     "config": {
-        "platform": {
-            "php": "7.4"
-        },
         "sort-packages": true,
         "allow-plugins": {
             "ziiframework/composer": true
@@ -75,7 +72,6 @@
     },
     "scripts": {
         "redo-install": [
-            "rm -rf vendor/",
             "rm -f composer.lock",
             "@composer self-update -vvv",
             "@composer install -vvv"
