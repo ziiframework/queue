@@ -26,14 +26,14 @@ abstract class CliTestCase extends TestCase
     /**
      * @param array $cmd
      */
-    protected function runProcess($cmd)
+    protected function runProcess(array $cmd)
     {
         $cmd = $this->prepareCmd($cmd);
         $process = new Process($cmd);
         $process->mustRun();
 
         $error = $process->getErrorOutput();
-        $this->assertEmpty($error, "Can not execute '$cmd' command:\n$error");
+        $this->assertEmpty($error, "Can not execute '" . implode(' ', $cmd) . "' command:\n$error");
     }
 
     /**
