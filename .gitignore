@@ -1,8 +1,7 @@
+/.idea/
+/vendor/
 
 /.DS_Store
 /Thumbs.db
-
-/.idea/
-/vendor/
 
 /composer.lock
