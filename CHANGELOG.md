@@ -1,13 +1,18 @@
 Yii2 Queue Extension Change Log
 ===============================
 
-upstream changes: [8b549f2...master](https://github.com/yiisoft/yii2-queue/compare/8b549f2...master)
-
-
-2.3.5 under development
+3.0.0 under development
 -----------------------
 
-- no changes in this release.
+- Enh #372: Add ability to configure keepalive and heartbeat for AMQP and AMQP interop (vyachin)
+- Enh #464: Delete property `maxPriority` (skolkin-worker)
+
+
+2.3.5 November 18, 2022
+-----------------------
+
+- Enh #457: Upgraded `jeremeamia/superclosure` library to `opis/closure`, adding the possibility to have closures as properties of the jobs (mp1509)
+- Enh #459: Added the ability to sets of flags for the AMQP queue and exchange (s1lver)
 
 
 2.3.4 March 31, 2022

@@ -108,6 +108,12 @@ class Queue extends CliQueue
      */
     public $persisted;
     /**
+     * Send keep-alive packets for a socket connection
+     * @var bool
+     * @since 2.3.6
+     */
+    public $keepalive;
+    /**
      * The connection will be established as later as possible if set true.
      *
      * @var bool|null
@@ -183,6 +189,13 @@ class Queue extends CliQueue
      */
     public $queueOptionalArguments = [];
     /**
+     * Set of flags for the queue
+     * @var int
+     * @since 2.3.5
+     * @see AmqpDestination
+     */
+    public $queueFlags = AmqpQueue::FLAG_DURABLE;
+    /**
      * The exchange used to publish messages to.
      *
      * @var string
@@ -194,6 +207,13 @@ class Queue extends CliQueue
      * @since 2.3.3
      */
     public $exchangeType = AmqpTopic::TYPE_DIRECT;
+    /**
+     * Set of flags for the exchange
+     * @var int
+     * @since 2.3.5
+     * @see AmqpDestination
+     */
+    public $exchangeFlags = AmqpTopic::FLAG_DURABLE;
     /**
      * Routing key for publishing messages. Default is NULL.
      *
@@ -207,12 +227,6 @@ class Queue extends CliQueue
      * @var string
      */
     public $driver = self::ENQUEUE_AMQP_LIB;
-    /**
-     * This property should be an integer indicating the maximum priority the queue should support. Default is 10.
-     *
-     * @var int
-     */
-    public $maxPriority = 10;
     /**
      * The property contains a command class which used in cli.
      *
@@ -404,6 +418,7 @@ class Queue extends CliQueue
             'connection_timeout' => $this->connectionTimeout,
             'heartbeat' => $this->heartbeat,
             'persisted' => $this->persisted,
+            'keepalive' => $this->keepalive,
             'lazy' => $this->lazy,
             'qos_global' => $this->qosGlobal,
             'qos_prefetch_size' => $this->qosPrefetchSize,
@@ -436,16 +451,13 @@ class Queue extends CliQueue
         }
 
         $queue = $this->context->createQueue($this->queueName);
-        $queue->addFlag(AmqpQueue::FLAG_DURABLE);
-        $queue->setArguments(array_merge(
-            ['x-max-priority' => $this->maxPriority],
-            $this->queueOptionalArguments
-        ));
+        $queue->setFlags($this->queueFlags);
+        $queue->setArguments($this->queueOptionalArguments);
         $this->context->declareQueue($queue);
 
         $topic = $this->context->createTopic($this->exchangeName);
         $topic->setType($this->exchangeType);
-        $topic->addFlag(AmqpTopic::FLAG_DURABLE);
+        $topic->setFlags($this->exchangeFlags);
         $this->context->declareTopic($topic);
 
         $this->context->bind(new AmqpBind($queue, $topic, $this->routingKey));
