@@ -178,7 +178,7 @@ services:
 
   # https://hub.docker.com/_/rabbitmq/
   rabbitmq:
-    image: rabbitmq:3.9.10
+    image: rabbitmq:3
     ports:
       - 5673:5672
     networks:
