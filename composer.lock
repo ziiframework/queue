@@ -2362,16 +2362,16 @@
         },
         {
             "name": "php-amqplib/php-amqplib",
-            "version": "v3.2.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-amqplib/php-amqplib.git",
-                "reference": "0bec5b392428e0ac3b3f34fbc4e02d706995833e"
+                "reference": "2e64caf77f89ea484e23744ec955b8dbcda3ebce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/0bec5b392428e0ac3b3f34fbc4e02d706995833e",
-                "reference": "0bec5b392428e0ac3b3f34fbc4e02d706995833e",
+                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/2e64caf77f89ea484e23744ec955b8dbcda3ebce",
+                "reference": "2e64caf77f89ea484e23744ec955b8dbcda3ebce",
                 "shasum": ""
             },
             "require": {
@@ -2437,9 +2437,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-amqplib/php-amqplib/issues",
-                "source": "https://github.com/php-amqplib/php-amqplib/tree/v3.2.0"
+                "source": "https://github.com/php-amqplib/php-amqplib/tree/v3.5.0"
             },
-            "time": "2022-03-10T19:16:00+00:00"
+            "time": "2023-01-16T19:29:35+00:00"
         },
         {
             "name": "php-http/client-common",
