@@ -18,7 +18,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4.0",
+        "php": ">=7.4.5",
         "symfony/process": "^5.0||^6.0",
         "ziiframework/zii": ">=3.5.25"
     },
