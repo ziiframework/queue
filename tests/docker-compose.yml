@@ -158,7 +158,7 @@ services:
 
   # https://docs.docker.com/samples/library/postgres/
   postgres:
-    image: postgres:10
+    image: postgres:11
     ports:
       - 5433:5432
     environment:
