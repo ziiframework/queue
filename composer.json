@@ -20,7 +20,7 @@
     "require": {
         "php": ">=7.4.5",
         "symfony/process": "^5.0||^6.0",
-        "ziiframework/zii": ">=3.5.25"
+        "ziiframework/zii": ">=3.6.9"
     },
     "require-dev": {
         "ziiframework/redis": "*",
