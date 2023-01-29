@@ -28,7 +28,7 @@
         "enqueue/amqp-lib": "^0.10.9",
         "pda/pheanstalk": "v3.*",
         "opis/closure": "*",
-        "phpunit/phpunit": "^8.0",
+        "phpunit/phpunit": "^9.5",
         "aws/aws-sdk-php": ">=3.257.0",
         "enqueue/stomp": "^0.10.9"
     },
