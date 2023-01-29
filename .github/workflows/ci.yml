@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ 74, 80 ]
+        php: [ 80, 81 ]
         # does not support php8.1 for now, see https://github.com/opis/closure/issues/128
 
     steps:
