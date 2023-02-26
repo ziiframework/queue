@@ -30,7 +30,7 @@
         "opis/closure": "*",
         "phpunit/phpunit": "^8.0",
         "aws/aws-sdk-php": ">=3.257.0",
-        "enqueue/stomp": "^0.10.9"
+        "enqueue/stomp": "^0.10.16"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
