@@ -29,7 +29,7 @@
         "pda/pheanstalk": "v3.*",
         "opis/closure": "*",
         "phpunit/phpunit": "^8.0",
-        "aws/aws-sdk-php": ">=3.260.3",
+        "aws/aws-sdk-php": ">=3.261.3",
         "enqueue/stomp": "^0.10.16"
     },
     "suggest": {
