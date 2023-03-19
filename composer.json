@@ -27,7 +27,7 @@
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.10.9",
         "pda/pheanstalk": "v3.*",
-        "opis/closure": "*",
+        "charescape/serialize-closure": "4.0.x-dev",
         "phpunit/phpunit": "^8.0",
         "aws/aws-sdk-php": ">=3.260.3",
         "enqueue/stomp": "^0.10.16"
@@ -65,7 +65,8 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "ziiframework/composer": true
+            "ziiframework/composer": true,
+            "php-http/discovery": true
         }
     },
     "scripts": {
