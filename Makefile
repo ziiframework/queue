@@ -21,6 +21,12 @@ test81:
 	docker-compose run php81 vendor/bin/phpunit --colors=always -v --debug
 	docker-compose down
 
+test: test82
+test82:
+	docker-compose build --pull php82
+	docker-compose run php82 vendor/bin/phpunit --colors=always -v --debug
+	docker-compose down
+
 benchmark: benchmark74
 benchmark74:
 	docker-compose build --pull php74
@@ -37,6 +43,12 @@ benchmark: benchmark81
 benchmark81:
 	docker-compose build --pull php81
 	docker-compose run php81 tests/yii benchmark/waiting
+	docker-compose down
+
+benchmark: benchmark82
+benchmark82:
+	docker-compose build --pull php82
+	docker-compose run php82 tests/yii benchmark/waiting
 	docker-compose down
 
 clean:
