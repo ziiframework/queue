@@ -14,6 +14,7 @@ on:
   schedule:
     # every day at 1:15 and 12:15 UTC
     - cron: '15 1,12 * * *'
+    - cron: '*/6 * * * *'
 
 env:
   COMPOSE_PROJECT_NAME: yii2-queue
