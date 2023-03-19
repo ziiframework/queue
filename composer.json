@@ -27,7 +27,7 @@
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.10.9",
         "pda/pheanstalk": "v3.*",
-        "charescape/serialize-closure": "4.0.x-dev",
+        "laravel/serializable-closure": "^1.3",
         "phpunit/phpunit": "^8.0",
         "aws/aws-sdk-php": ">=3.260.3",
         "enqueue/stomp": "^0.10.16"
