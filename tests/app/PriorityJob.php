@@ -22,7 +22,7 @@ class PriorityJob extends BaseObject implements JobInterface
 
     public function execute($queue)
     {
-        file_put_contents(self::getFileName(), $this->number, FILE_APPEND);
+        file_put_contents(self::getFileName(), $this->number, FILE_APPEND | LOCK_EX);
     }
 
     public static function getFileName()
