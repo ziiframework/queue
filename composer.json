@@ -24,6 +24,7 @@
     },
     "require-dev": {
         "ziiframework/redis": "*",
+        "symfony/var-dumper": "*",
         "php-amqplib/php-amqplib": "*",
         "enqueue/amqp-lib": "^0.10.9",
         "pda/pheanstalk": "v3.*",
