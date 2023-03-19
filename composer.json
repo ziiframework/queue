@@ -65,7 +65,8 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
-            "ziiframework/composer": true
+            "ziiframework/composer": true,
+            "php-http/discovery": true
         }
     },
     "scripts": {
