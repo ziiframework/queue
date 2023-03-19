@@ -17,9 +17,6 @@ RUN apt-get update \
     && apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo_pgsql \
-    && apt-get -y install libgearman-dev \
-    && pecl install gearman \
-    && docker-php-ext-enable gearman \
     && docker-php-ext-install sockets \
     && rm -rf /var/lib/apt/lists/* \
     && curl -L -o /tmp/composer-setup.php https://getcomposer.org/installer \
