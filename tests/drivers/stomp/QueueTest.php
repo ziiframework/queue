@@ -50,6 +50,10 @@ class QueueTest extends CliTestCase
             $this->markTestSkipped('Stomp tests are disabled for php 5.5');
         }
 
+        if (PHP_VERSION_ID >= 80100) {
+            $this->markTestSkipped('Stomp tests skip on PHP >= 8.1');
+        }
+
         parent::setUp();
     }
 
