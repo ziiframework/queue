@@ -36,12 +36,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ 80, 81 ]
-        # does not support php8.1 for now, see https://github.com/opis/closure/issues/128
+        php: [ 80, 81, 82 ]
+        # does not support php>=8.1 for now, see https://github.com/opis/closure/issues/128
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup Permissions
         run: |
