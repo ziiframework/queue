@@ -52,11 +52,9 @@ class Behavior extends \yii\base\Behavior
     {
         $job = $event->job;
 
-        dump('beforePush() event->job:', $job);
         $serialized = serialize(new SerializableClosure(function () use ($job) {
             return $job;
         }));
-        dump('beforePush() serialized:', $serialized);
 
         $event->job = new Job();
         $event->job->serialized = $serialized;

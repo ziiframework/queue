@@ -28,13 +28,10 @@ class Job implements JobInterface
      */
     public function execute($queue)
     {
-        dump('Job::execute() this->serialized:', $this->serialized);
         $closure = unserialize($this->serialized)->getClosure();
-        dump('Job::execute() closure:', $closure);
 
-        // function()
+        // function () {}
         $unserialized = $closure();
-        dump('Job::execute() unserialized:', $unserialized);
 
         if ($unserialized instanceof \Closure) {
             return $unserialized();
