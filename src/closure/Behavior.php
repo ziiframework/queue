@@ -53,7 +53,7 @@ class Behavior extends \yii\base\Behavior
         if ($event->job instanceof \Closure) {
             $serialized = serialize(new SerializableClosure($event->job));
         } else {
-            dump($event->job);
+            dump('event->job not instanceof Closure:', $event->job);
             $serialized = serialize($event->job);
         }
 
