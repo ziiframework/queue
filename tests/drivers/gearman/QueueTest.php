@@ -75,6 +75,10 @@ class QueueTest extends CliTestCase
             $this->markTestSkipped('Gearman in not installed.');
         }
 
+        if (PHP_VERSION_ID >= 80100) {
+            $this->markTestSkipped('Gearman tests skip on PHP >= 8.1');
+        }
+
         parent::setUp();
     }
 }
