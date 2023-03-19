@@ -31,7 +31,7 @@ class Job implements JobInterface
         $unserialized = unserialize($this->serialized)->getClosure();
 
         // fn()
-        $unserialized = $unserialized();
+        // $unserialized = $unserialized();
 
         if ($unserialized instanceof \Closure) {
             return $unserialized();

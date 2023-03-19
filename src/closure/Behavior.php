@@ -50,7 +50,12 @@ class Behavior extends \yii\base\Behavior
      */
     public function beforePush(PushEvent $event)
     {
-        $serialized = serialize(new SerializableClosure(fn() => $event->job));
+        if ($event->job instanceof \Closure) {
+            $serialized = serialize(new SerializableClosure($event->job));
+        } else {
+            $serialized = serialize($event->job);
+        }
+
         $event->job = new Job();
         $event->job->serialized = $serialized;
     }
