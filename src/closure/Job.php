@@ -7,7 +7,6 @@
 
 namespace yii\queue\closure;
 
-use function Opis\Closure\unserialize as opis_unserialize;
 use yii\queue\JobInterface;
 
 /**
@@ -29,10 +28,15 @@ class Job implements JobInterface
      */
     public function execute($queue)
     {
-        $unserialized = opis_unserialize($this->serialized);
+        $closure = unserialize($this->serialized)->getClosure();
+
+        // function () {}
+        $unserialized = $closure();
+
         if ($unserialized instanceof \Closure) {
             return $unserialized();
         }
+
         return $unserialized->execute($queue);
     }
 }
