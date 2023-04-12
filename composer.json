@@ -30,7 +30,7 @@
         "pda/pheanstalk": "v3.*",
         "laravel/serializable-closure": "^1.3",
         "phpunit/phpunit": "^8.0",
-        "aws/aws-sdk-php": ">=3.260.3",
+        "aws/aws-sdk-php": ">=3.263.8",
         "enqueue/stomp": "^0.10.16"
     },
     "suggest": {
