@@ -31,7 +31,7 @@
         "laravel/serializable-closure": "^1.3",
         "phpunit/phpunit": "^8.0",
         "aws/aws-sdk-php": ">=3.263.8",
-        "enqueue/stomp": "^0.10.16"
+        "enqueue/stomp": "^0.10.18"
     },
     "suggest": {
         "ext-pcntl": "Need for process signals.",
